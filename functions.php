@@ -22,8 +22,6 @@ function site_setup() {
 	 */
 	load_theme_textdomain( 'site', get_template_directory() . '/languages' );
 
-	// Add default posts and comments RSS feed links to head.
-	add_theme_support( 'automatic-feed-links' );
 
 	/*
 	 * Let WordPress manage the document title.
@@ -45,37 +43,7 @@ function site_setup() {
 		'primary' => esc_html__( 'Primary Menu', 'site' ),
 	) );
 
-	/*
-	 * Switch default core markup for search form, comment form, and comments
-	 * to output valid HTML5.
-	 */
-	add_theme_support( 'html5', array(
-		'search-form',
-		'comment-form',
-		'comment-list',
-		'gallery',
-		'caption',
-	) );
-
-	/*
-	 * Enable support for Post Formats.
-	 * See http://codex.wordpress.org/Post_Formats
-	 */
-	add_theme_support( 'post-formats', array(
-		'aside',
-		'image',
-		'video',
-		'quote',
-		'link',
-	) );
-
-	// Set up the WordPress core custom background feature.
-	add_theme_support( 'custom-background', apply_filters( 'site_custom_background_args', array(
-		'default-color' => 'ffffff',
-		'default-image' => '',
-	) ) );
-
-	add_image_size('home-thumb',780,300,true);
+	add_image_size('home-thumb',780,780,true);
 }
 endif; // site_setup
 add_action( 'after_setup_theme', 'site_setup' );
@@ -92,45 +60,37 @@ function site_content_width() {
 }
 add_action( 'after_setup_theme', 'site_content_width', 0 );
 
-/**
- * Register widget area.
- *
- * @link http://codex.wordpress.org/Function_Reference/register_sidebar
- */
-function site_widgets_init() {
-	register_sidebar( array(
-		'name'          => esc_html__( 'Sidebar', 'site' ),
-		'id'            => 'sidebar-1',
-		'description'   => '',
-		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</aside>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
-	) );
-}
-add_action( 'widgets_init', 'site_widgets_init' );
 
 /**
  * Enqueue scripts and styles.
  */
 function site_scripts() {
-	wp_enqueue_style( 'site-style-bxslider', get_template_directory_uri() ."/bootstrap/css/bootstrap.min.css" );
-	wp_enqueue_style( 'site-style-bootstrap', get_template_directory_uri() ."/js/jquery.bxslider.css" );
-	wp_enqueue_style( 'site-style-animate', get_template_directory_uri() ."/animate.css" );
-	wp_enqueue_style( 'site-style-lightbox', get_template_directory_uri() ."/js/lightbox2/src/css/lightbox.css" );
-	wp_enqueue_style( 'site-style', get_stylesheet_uri() );
+	wp_enqueue_style( 'site-style-bootstrap', get_template_directory_uri() ."/css/bootstrap.css" );
+	wp_enqueue_style( 'site-style-carousel', get_template_directory_uri() ."/css/owl.carousel.css" );
+	wp_enqueue_style( 'site-style-icons', get_template_directory_uri() ."/css/icons.css" );
+	wp_enqueue_style( 'site-style-select', get_template_directory_uri() ."/css/select2.min.css" );
+	wp_enqueue_style( 'site-style-scrollbar', get_template_directory_uri() ."/css/perfect-scrollbar.css" );
+	wp_enqueue_style( 'site-style-default', get_template_directory_uri() ."/css/style.css" );
+	wp_enqueue_style( 'site-style-responsive', get_template_directory_uri() ."/css/responsive.css" );
+	wp_enqueue_style( 'site-style-color', get_template_directory_uri() ."/css/colors/color.css" );
+	wp_enqueue_style( 'site-style', get_template_directory_uri() ."/style.css" );
 
-	wp_enqueue_script( 'site-script-jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js');
-	wp_enqueue_script( 'site-script-bootstrap', get_template_directory_uri() . '/bootstrap/js/bootstrap.min.js');
-	wp_enqueue_script( 'site-script-jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js');
-	wp_enqueue_script( 'site-script-mask', get_template_directory_uri() . '/js/jquery.mask.min.js');
-	wp_enqueue_script( 'site-script-bxslider', get_template_directory_uri() . '/js/jquery.bxslider.min.js',array(),false,true);
-	wp_enqueue_script( 'site-script-lightbox', get_template_directory_uri() . '/js/lightbox2/src/js/lightbox.js',array(),false,true);
-	wp_enqueue_script( 'site-script-wow', get_template_directory_uri() . '/js/wow.min.js',array());
-	wp_enqueue_script( 'site-script-site', get_template_directory_uri() . '/js/script.js',array(),false,true);
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-		wp_enqueue_script( 'comment-reply' );
-	}
+	wp_enqueue_script( 'site-script-modernizr', get_template_directory_uri() . '/js/modernizr-2.0.6.js',array(),false,true);
+	wp_enqueue_script( 'site-script-jquery', get_template_directory_uri() . '/js/jquery-2.2.2.js',array(),false,true);
+	wp_enqueue_script( 'site-script-bootstrap', get_template_directory_uri() . '/js/bootstrap.min.js',array(),false,true);
+	wp_enqueue_script( 'site-script-scrolltop', get_template_directory_uri() . '/js/scrolltopcontrol.js',array(),false,true);
+	wp_enqueue_script( 'site-script-scrolly', get_template_directory_uri() . '/js/jquery.scrolly.js',array(),false,true);
+	wp_enqueue_script( 'site-script-carousel', get_template_directory_uri() . '/js/owl.carousel.min.js',array(),false,true);
+	wp_enqueue_script( 'site-script-icheck', get_template_directory_uri() . '/js/icheck.js',array(),false,true);
+	wp_enqueue_script( 'site-script-select2', get_template_directory_uri() . '/js/select2.full.js',array(),false,true);
+	wp_enqueue_script( 'site-script-counterup', get_template_directory_uri() . '/js/jquery.counterup.min.js',array(),false,true);
+	wp_enqueue_script( 'site-script-waypoints', get_template_directory_uri() . '/js/waypoints.js',array(),false,true);
+	wp_enqueue_script( 'site-script-pscrollbar', get_template_directory_uri() . '/js/perfect-scrollbar.js',array(),false,true);
+	wp_enqueue_script( 'site-script-pscrollbarjquery', get_template_directory_uri() . '/js/perfect-scrollbar.jquery.js',array(),false,true);
+	wp_enqueue_script( 'site-script-mapsapi', 'https://maps.googleapis.com/maps/api/js',array(),false,true);
+	wp_enqueue_script( 'site-script-plugin', get_template_directory_uri() . '/js/jquery.plugin.js',array(),false,true);
+	wp_enqueue_script( 'site-script-datepick', get_template_directory_uri() . '/js/jquery.datepick.js',array(),false,true);
+	wp_enqueue_script( 'site-script', get_template_directory_uri() . '/js/script.js',array(),false,true);
 }
 add_action( 'wp_enqueue_scripts', 'site_scripts' );
 
